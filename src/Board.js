@@ -62,7 +62,7 @@
     },
 
 
-/*
+    /*
          _             _     _
      ___| |_ __ _ _ __| |_  | |__   ___ _ __ ___ _
     / __| __/ _` | '__| __| | '_ \ / _ \ '__/ _ (_)
@@ -78,13 +78,43 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+    //I: rowIndex: Integer that relates to what row index  we are at
+    //O Boolean True if more than 1 Q, false if 1 < Q
+    //C:
+    //E: If rowIndex EXCEEDS # of rows on board
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+    // Get the row in the Matrix
+      var currentRow = this.get(rowIndex);
+      // Create count variable
+      var count = 0;
+      //   iterate through that row array
+      for (var i = 0; i < currentRow.length; i++) {
+      //     IF Value at index is 1
+        if (currentRow[i] === 1) {
+          //         Increase the count by 1
+          count++;
+        }
+      }
+      // If the count is greater than one there is a conflict, return TRUE
+      if (count > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      // Get the length of the board
+      //console.log('this.get: ', this.get(0));
+      var boardLength = this.get(0).length;
+      // iterate through the length
+      for (var i = 0; i < boardLength; i++) {
+      // If calling hasRow at any row, return true, because there is a conflict in the specific row
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
