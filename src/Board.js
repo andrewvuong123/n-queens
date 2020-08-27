@@ -238,7 +238,7 @@
       for (var i = 0; i < boardLength; i++) {
         // get current row
         var row = this.get(i);
-        // check curr diagonal position at row below current row.
+        // check curr diagonal position at row below prev row.
         if (row[minorDiagonalColumnIndexAtFirstRow - i] === 1) {
           // increment counter if index at val === 1
           counter ++;

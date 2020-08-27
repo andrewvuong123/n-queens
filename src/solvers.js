@@ -14,11 +14,36 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 
-
+// I: Number of rooks and length of board
+// O: A matrix with no conflicts
+// E: n < 1, no conflicts. If a rook is placed in a any corner, and rook count is >3 no valid sol exists
 window.findNRooksSolution = function(n) {
+  //
+// Initialize empty board
+// If n = 1 return [1]
+// Helper Function takes these inputs:
+//  Row
+//  placedRookCount tracker
+// BASE CASE
+// if placedRookCount === n
+//   return solved Matrix
+//
+
+  // iterate through row param
+  //   if value at index in row, has no conflicts. Set value to 1 "Placing Rook"
+  //   placedRookCount ++
+  //      recurse onto the NEXT row
+  //
+
+  // If no valid placment exists- go up one branch and try again._
+
+
+
+  // Matrix format
   var solution = undefined; //fixme
 
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // return  format is : Matrix
   return solution;
 };
 
