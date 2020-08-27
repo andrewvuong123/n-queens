@@ -87,11 +87,11 @@
       var currentRow = this.get(rowIndex);
       // Create count variable
       var count = 0;
-      //   iterate through that row array
+      // iterate through that row array
       for (var i = 0; i < currentRow.length; i++) {
-      //     IF Value at index is 1
+      // If Value at index is 1
         if (currentRow[i] === 1) {
-          //         Increase the count by 1
+          // Increase the count by 1
           count++;
         }
       }
@@ -117,19 +117,45 @@
       return false;
     },
 
-
-
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      // Get the Col in the Matrix
+      var currentCol = this.get(0).length;
+      // Create count variable
+      var count = 0;
+      // iterate through that Col array
+      for (var i = 0; i < currentCol; i++) {
+        // Row array
+        var row = this.get(i);
+        // If Value in row@colIndex is 1
+        if (row[colIndex] === 1) {
+          // Increase the count by 1
+          count++;
+        }
+      }
+      // If the count is greater than one there is a conflict, return TRUE
+      if (count > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      // Get the length of the board
+      //console.log('this.get: ', this.get(0));
+      var boardLength = this.get(0).length;
+      // iterate through the length
+      for (var i = 0; i < boardLength; i++) {
+      // If calling hasCol at any row, return true, because there is a conflict in the specific col
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
