@@ -165,12 +165,66 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      //I: Integer
+      //O: Boolean
+      //C:
+      //E: If input is NEGATIVE number
+
+      // get length of Col
+      var n = this.get(0).length;
+      // counter helper
+      var counter = 0;
+      // IF input is a negative number
+      if (majorDiagonalColumnIndexAtFirstRow < 0) {
+        for (var i = 0; i < n; i++ ) {
+          // Get current row
+          var row = this.get(i);
+          //Check current position at row
+          if ( row[majorDiagonalColumnIndexAtFirstRow + i] === 1) {
+          //        if 1 count ++
+            counter++;
+          }
+        }
+      } else {
+        // Iterate over Array of arrays
+        for (var i = 0; i < n - majorDiagonalColumnIndexAtFirstRow; i++ ) {
+          // Get current row
+          var row = this.get(i);
+          //Check current position at row
+          if ( row[majorDiagonalColumnIndexAtFirstRow + i] === 1) {
+          // current index val === 1 counter ++
+
+            counter++;
+          }
+        }
+      }
+      //If counter > 1 return true;
+      if (counter > 1) {
+        return true;
+      }
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      //I: Integer
+      //O: Boolean
+      //C:
+      //E:
+
+      // Get Board length
+      var n = this.get(0).length;
+      //Iterate over matrix starting at i = 0-n/2
+      for (var i = (0 - Math.ceil(n / 2)); i < n; i++) {
+      // if hasMajorDiagonalConflictAt
+        if (this.hasMajorDiagonalConflictAt(i)) {
+        //    return true;
+          return true;
+        }
+
+      }
+
+      return false;
     },
 
 
