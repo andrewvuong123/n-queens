@@ -19,31 +19,46 @@
 // E: n < 1, no conflicts. If a rook is placed in a any corner, and rook count is >3 no valid sol exists
 window.findNRooksSolution = function(n) {
   //
-// Initialize empty board
-// If n = 1 return [1]
-// Helper Function takes these inputs:
-//  Row
-//  placedRookCount tracker
-// BASE CASE
-// if placedRookCount === n
-//   return solved Matrix
-//
-
-  // iterate through row param
-  //   if value at index in row, has no conflicts. Set value to 1 "Placing Rook"
-  //   placedRookCount ++
-  //      recurse onto the NEXT row
-  //
-
-  // If no valid placment exists- go up one branch and try again._
-
-
+  // Initialize empty board
+  var board = new Board({n: n});
+  // If n = 1 return [1]
+  if (n === 1) {
+    return [[1]];
+  }
+  // Helper Function takes these inputs:
+  //  Row
+  //  placedRookCount tracker
+  // Var solution here
+  var solution;
+  var rooksSolver = function(row, placedRookCount) {
+    // BASE CASE
+    // if placedRookCount === n
+    if (placedRookCount === n) {
+      //   return solved Matrix
+      // .rows returns an array of arrays..
+      solution = board.rows();
+      return board;
+    }
+    // iterate through row param
+    var rowArr = board.get(row);
+    for (var i = 0; i < rowArr.length; i++) {
+      // if value at index in row, has no conflicts. Set value to 1 "Placing Rook"
+      board.togglePiece(row, i);
+      if (!board.hasAnyRooksConflicts()) {
+        // place rook into board
+        // recurse onto the NEXT row
+        var result = rooksSolver(row + 1, placedRookCount + 1);
+      } else {
+        board.togglePiece(row, i);
+      }
+    }
+    // If no valid placment exists- go up one branch and try again._
+    return result;
+  };
 
   // Matrix format
-  var solution = undefined; //fixme
+  rooksSolver(0, 0);
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  // return  format is : Matrix
   return solution;
 };
 
