@@ -78,39 +78,37 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+
     //I: rowIndex: Integer that relates to what row index  we are at
     //O Boolean True if more than 1 Q, false if 1 < Q
-    //C:
-    //E: If rowIndex EXCEEDS # of rows on board
     hasRowConflictAt: function(rowIndex) {
     // Get the row in the Matrix
       var currentRow = this.get(rowIndex);
       // Create count variable
       var count = 0;
-      // iterate through that row array
+      // iterate through the row array
       for (var i = 0; i < currentRow.length; i++) {
-      // If Value at index is 1
+        // If theres a rook in the row
         if (currentRow[i] === 1) {
           // Increase the count by 1
           count++;
         }
       }
       // If the count is greater than one there is a conflict, return TRUE
-      if (count > 1) {
-        return true;
-      }
-      return false;
+      return !!(count > 1);
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       // Get the length of the board
-      var boardLength = this.get(0).length;
-      // iterate through the length
-      for (var i = 0; i < boardLength; i++) {
-      // If calling hasRow at any row, return true, because there is a conflict in the specific row
-        if (this.hasRowConflictAt(i)) {
-          return true;
+      if (this.get('n') !== 0) {
+        var boardLength = this.get(0).length;
+        // iterate through the length
+        for (var i = 0; i < boardLength; i++) {
+          // If calling hasRow at any row, return true, because there is a conflict in the specific row
+          if (this.hasRowConflictAt(i)) {
+            return true;
+          }
         }
       }
       return false;
@@ -125,10 +123,11 @@
       var boardLength = this.get(0).length;
       // Create count variable
       var count = 0;
+      var row;
       // iterate through the length of the board
       for (var i = 0; i < boardLength; i++) {
-        // Row array
-        var row = this.get(i);
+        // get each row array
+        row = this.get(i);
         // If Value in row@colIndex is 1
         if (row[colIndex] === 1) {
           // Increase the count by 1
@@ -136,21 +135,20 @@
         }
       }
       // If the count is greater than one there is a conflict, return TRUE
-      if (count > 1) {
-        return true;
-      }
-      return false;
+      return !!(count > 1);
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       // Get the length of the board
-      var boardLength = this.get(0).length;
-      // iterate through the length
-      for (var i = 0; i < boardLength; i++) {
-      // If calling hasCol at any col, return true, because there is a conflict in the specific col
-        if (this.hasColConflictAt(i)) {
-          return true;
+      if (this.get('n') !== 0) {
+        var boardLength = this.get(0).length;
+        // iterate through the length
+        for (var i = 0; i < boardLength; i++) {
+          // If calling hasCol at any col, return true, because there is a conflict in the specific col
+          if (this.hasColConflictAt(i)) {
+            return true;
+          }
         }
       }
       return false;
@@ -160,61 +158,55 @@
     // --------------------------------------------------------------
     //
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      //I: Integer
-      //O: Boolean
-      //C:
-      //E: If input is NEGATIVE number
 
+    //I: Integer
+    //O: Boolean
+    //E: If input is NEGATIVE number
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       // get length of board
       var n = this.get(0).length;
       // counter helper
       var counter = 0;
-      // IF input is a negative number
+      var row;
+      // If input is a negative number
       if (majorDiagonalColumnIndexAtFirstRow < 0) {
         for (var i = 0; i < n; i++ ) {
-          // Get current row
-          var row = this.get(i);
-          //Check diagonal position at row
+          // Get each row
+          row = this.get(i);
+          // Check diagonal position at row
           if (row[majorDiagonalColumnIndexAtFirstRow + i] === 1) {
-          // if 1 count ++
+            // if 1 count ++
             counter++;
           }
         }
       } else {
-        // Iterate over Array of arrays
+        // Iterate over length of array - col
         for (var i = 0; i < n - majorDiagonalColumnIndexAtFirstRow; i++ ) {
           // Get current row
           var row = this.get(i);
           // Check current diagonal position at row
-          if ( row[majorDiagonalColumnIndexAtFirstRow + i] === 1) {
-          // current index val === 1 counter ++
+          if (row[majorDiagonalColumnIndexAtFirstRow + i] === 1) {
+            // if theres a rook in that position, increment counter
             counter++;
           }
         }
       }
       //If counter > 1 return true;
-      if (counter > 1) {
-        return true;
-      }
-      return false;
+      return !!(counter > 1);
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      //I: Integer
-      //O: Boolean
-      //C:
-      //E:
-
       // Get Board length
-      var n = this.get(0).length;
-      //Iterate over matrix starting at i = 0-n/2
-      for (var i = (0 - Math.ceil(n / 2)); i < n; i++) {
-        // if hasMajorDiagonalConflictAt
-        if (this.hasMajorDiagonalConflictAt(i)) {
-          // return true;
-          return true;
+      if (this.get('n') !== 0) {
+        var n = this.get(0).length;
+        // Iterate over matrix starting at i = 0-n/2
+        for (var i = (0 - Math.ceil(n / 2)); i < n; i++) {
+          // if hasMajorDiagonalConflictAt
+          if (this.hasMajorDiagonalConflictAt(i)) {
+            // return true;
+            return true;
+          }
         }
       }
       return false;
@@ -226,44 +218,39 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      //I: Integer
-      //O: Boolean
-      //E: if negative
-
       // var for length of matrix
       var boardLength = this.get(0).length;
       // var for counter
       var counter = 0;
+      var row;
       // Iterate over board length
       for (var i = 0; i < boardLength; i++) {
         // get current row
-        var row = this.get(i);
-        // check curr diagonal position at row below prev row.
+        row = this.get(i);
+        // check curr diagonal position at row
         if (row[minorDiagonalColumnIndexAtFirstRow - i] === 1) {
-          // increment counter if index at val === 1
+          // increment counter if theres a rook
           counter ++;
         }
       }
       // if counter > 1, return true
-      if (counter > 1) {
-        return true;
-      }
-      // else false
-      return false;
+      return !!(counter > 1);
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       // Get Board length
-      var n = this.get(0).length;
-      // reassign n to go beyond board for lower diagonals
-      n = n + Math.ceil(n / 2);
-      //Iterate over matrix
-      for (var i = 1; i < n; i++) {
-        // if hasMinorDiagonalConflictAt
-        if (this.hasMinorDiagonalConflictAt(i)) {
-          // return true;
-          return true;
+      if (this.get('n') !== 0) {
+        var n = this.get(0).length;
+        // reassign n to go beyond board for lower diagonals
+        n = n + Math.ceil(n / 2);
+        //Iterate over matrix
+        for (var i = 1; i < n; i++) {
+          // if hasMinorDiagonalConflictAt
+          if (this.hasMinorDiagonalConflictAt(i)) {
+            // return true;
+            return true;
+          }
         }
       }
       return false;
